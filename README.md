@@ -204,6 +204,18 @@ All reading endpoints require `Authorization: Bearer <token>`. User data isolati
 
 ---
 
+## 📊 Glucose Reporting Endpoints
+
+All reporting endpoints require `Authorization: Bearer <token>`. Calculates highest, lowest, average rounded to 1 decimal place, and count.
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/reports/daily?date=YYYY-MM-DD` | Daily summary metrics and individual reading list with slots |
+| `GET` | `/api/reports/month-to-date?date=YYYY-MM-DD` | Month-to-date metrics from 1st of month through selected date |
+| `GET` | `/api/reports/monthly?date=YYYY-MM-DD` | Previous calendar month summary metrics |
+
+---
+
 ## 🧪 Testing
 
 - **Backend Test Suite (Runs against isolated `sweety_test_db`):**
@@ -221,7 +233,7 @@ All reading endpoints require `Authorization: Bearer <token>`. User data isolati
 - [x] **Milestone 2:** PostgreSQL schema design, database connection pool, and migrations.
 - [x] **Milestone 3:** User registration, login with bcrypt, and JWT authentication middleware.
 - [x] **Milestone 4:** Blood glucose readings CRUD API with validation rules & constraints.
-- [ ] **Milestone 5:** Reporting engine (Daily, MTD, Previous Month metrics).
+- [x] **Milestone 5:** Reporting engine (Daily, MTD, Previous Month metrics).
 - [ ] **Milestone 6:** Seed script with demo user and realistic test data.
 - [ ] **Milestone 7:** React frontend UI (Auth, Dashboard, Reading entry, and Reports).
 - [ ] **Milestone 8:** Final end-to-end polish, test coverage, and documentation.
