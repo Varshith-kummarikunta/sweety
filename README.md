@@ -307,6 +307,38 @@ All reporting endpoints require `Authorization: Bearer <token>`. Calculates high
 
 ---
 
+## 📸 Application Screenshots
+
+High-resolution visual captures of the application in real Chrome environments are stored under `docs/screenshots/`:
+
+| Screen | Description | File |
+| :--- | :--- | :--- |
+| **Authentication** | Registration & Login tabs with Demo Credentials quick-fill | [docs/screenshots/01_login_page.png](docs/screenshots/01_login_page.png) |
+| **Dashboard** | Daily glycemic summary metrics, slot-sorted reading cards & date picker | [docs/screenshots/02_dashboard_desktop.png](docs/screenshots/02_dashboard_desktop.png) |
+| **Reading Modal** | Accessible add/edit modal with slot selection and integer validation | [docs/screenshots/03_add_edit_reading_modal.png](docs/screenshots/03_add_edit_reading_modal.png) |
+| **Daily Report** | Daily glycemic aggregates (highest, lowest, average, count) and slot records | [docs/screenshots/04_daily_report.png](docs/screenshots/04_daily_report.png) |
+| **Month-to-Date** | MTD progress metrics calculated from the 1st of the month to selected date | [docs/screenshots/05_month_to_date_report.png](docs/screenshots/05_month_to_date_report.png) |
+| **Previous Month** | Historical aggregates for full previous calendar month with year crossover | [docs/screenshots/06_previous_month_report.png](docs/screenshots/06_previous_month_report.png) |
+| **Mobile Layout** | Fully responsive layout tested on 375×667 mobile viewports | [docs/screenshots/07_mobile_dashboard.png](docs/screenshots/07_mobile_dashboard.png) |
+
+---
+
+## 🔒 Security & Data Isolation Architecture
+
+- **Password Hashing:** Passwords hashed with `bcrypt` using an industry-standard work factor of 12. Plaintext passwords are never stored or logged, and `password_hash` is stripped from all API outputs.
+- **Stateless JWT Sessions:** Protected endpoints authenticate via cryptographically signed JSON Web Tokens (`jsonwebtoken`) passed in standard HTTP `Authorization: Bearer <token>` headers.
+- **Strict User Data Isolation:** Every reading and reporting SQL query binds `user_id = req.user.id`. Users can never access, mutate, or query another user's glycemic records.
+- **Concurrency & Integrity Guarantees:** Database transactions with `SELECT ... FOR UPDATE` serialize concurrent reading creation, preventing race conditions against the 4-readings-per-day limit.
+- **Database Defense-in-Depth:**
+  - Case-insensitive email uniqueness via `CREATE UNIQUE INDEX idx_users_email_lower ON users (LOWER(email));`.
+  - Duplicate slot prevention via `CONSTRAINT uq_user_reading_slot UNIQUE (user_id, reading_date, time_slot)`.
+  - Value range check `CHECK (value >= 40 AND value <= 600)`.
+  - Allowed time slots check `CHECK (time_slot IN (...))`.
+- **Environment & Secret Hygiene:** Real `.env` files are excluded by `.gitignore`. Only `.env.example` templates with generic placeholders are tracked.
+- **Production Safety:** The database seed script automatically halts if `NODE_ENV === 'production'`.
+
+---
+
 ## 🗺 Development Milestones
 
 - [x] **Milestone 1:** Initial repository setup, project structure, dependencies, and environment templates.
@@ -316,4 +348,4 @@ All reporting endpoints require `Authorization: Bearer <token>`. Calculates high
 - [x] **Milestone 5:** Reporting engine (Daily, MTD, Previous Month metrics).
 - [x] **Milestone 6:** Seed script with demo user and realistic test data.
 - [x] **Milestone 7:** React frontend UI (Auth, Dashboard, Reading entry, and Reports).
-- [ ] **Milestone 8:** Final end-to-end polish, test coverage, and documentation.
+- [x] **Milestone 8:** Final end-to-end polish, test coverage, and documentation.
