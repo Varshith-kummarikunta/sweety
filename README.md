@@ -23,14 +23,56 @@ Sweety allows registered users to record, track, and analyze their blood glucose
 sweety/
 ├── backend/
 │   ├── src/
+│   │   ├── config/
+│   │   │   └── db.js            # PostgreSQL connection pool & env resolution
+│   │   ├── controllers/
+│   │   │   ├── authController.js   # Registration, login, profile (/me)
+│   │   │   ├── readingController.js # CRUD for readings with locking & constraints
+│   │   │   └── reportController.js  # Daily, MTD, and previous-month metrics
+│   │   ├── db/
+│   │   │   ├── schema.sql       # PostgreSQL DDL with UUIDs, indexes & constraints
+│   │   │   ├── migrate.js       # Migration execution script
+│   │   │   ├── seed.js          # Seed script with demo user & realistic sample data
+│   │   │   ├── check.js         # Connection diagnostics
+│   │   │   └── verify_milestone2.js # Schema constraint verification suite
+│   │   ├── middleware/
+│   │   │   └── authMiddleware.js # JWT verification & user context injection
+│   │   ├── routes/
+│   │   │   ├── authRoutes.js    # /api/auth routes
+│   │   │   ├── readingRoutes.js # /api/readings routes
+│   │   │   └── reportRoutes.js  # /api/reports routes
 │   │   ├── app.js               # Express application configuration & healthcheck
 │   │   └── server.js            # Server entry point
+│   ├── tests/                   # Jest + Supertest test suites (57 tests)
+│   │   ├── auth.test.js
+│   │   ├── readings.test.js
+│   │   └── reports.test.js
 │   ├── .env.example             # Backend environment template
 │   ├── package.json             # Backend dependencies and scripts
 │   └── package-lock.json
 ├── frontend/
 │   ├── public/                  # Static assets
-│   ├── src/                     # React source components and views
+│   ├── src/
+│   │   ├── components/          # Reusable UI components
+│   │   │   ├── Alert.jsx        # Dismissible status banner (success/error/info)
+│   │   │   ├── Navbar.jsx       # Header with user badge, navigation & logout
+│   │   │   ├── ReadingItem.jsx  # Individual reading card with slot badge & actions
+│   │   │   ├── ReadingModal.jsx # Add/Edit modal with validation & slot options
+│   │   │   └── StatCard.jsx     # Glycemic metric summary cards
+│   │   ├── context/
+│   │   │   └── AuthContext.jsx  # Auth state, session persistence & profile loading
+│   │   ├── pages/
+│   │   │   ├── AuthPage.jsx     # Registration & Login with demo quick-fill
+│   │   │   ├── DashboardPage.jsx # Daily view, metric cards, reading list & CRUD
+│   │   │   └── ReportsPage.jsx  # Daily, MTD & previous-month reporting tabs
+│   │   ├── services/
+│   │   │   └── api.js           # Centralized API client with JWT interception
+│   │   ├── App.jsx              # Main application shell & view navigation
+│   │   ├── App.css              # Healthcare-themed responsive styling
+│   │   ├── index.css            # Base typography & layout variables
+│   │   └── main.jsx             # React DOM entry point
+│   ├── tests/
+│   │   └── user_journey.test.js # End-to-end user journey tests (16 journeys)
 │   ├── index.html               # Vite HTML entry point
 │   ├── vite.config.js           # Vite configuration
 │   ├── .env.example             # Frontend environment template
@@ -237,11 +279,30 @@ All reporting endpoints require `Authorization: Bearer <token>`. Calculates high
 
 ## 🧪 Testing
 
-- **Backend Test Suite (Runs against isolated `sweety_test_db`):**
+- **Full Project Test Suite (Backend + Frontend):**
+  ```bash
+  npm test
+  ```
+
+- **Backend Test Suite (Runs 57 Jest tests against isolated `sweety_test_db`):**
   ```bash
   npm run backend:test
   # or from backend directory:
   cd backend && npm test
+  ```
+
+- **Frontend Test Suite (Runs 16 User Journeys via Node.js native test runner):**
+  ```bash
+  npm run frontend:test
+  # or from frontend directory:
+  cd frontend && npm test
+  ```
+
+- **Frontend Production Build:**
+  ```bash
+  npm run frontend:build
+  # or from frontend directory:
+  cd frontend && npm run build
   ```
 
 ---
@@ -254,5 +315,5 @@ All reporting endpoints require `Authorization: Bearer <token>`. Calculates high
 - [x] **Milestone 4:** Blood glucose readings CRUD API with validation rules & constraints.
 - [x] **Milestone 5:** Reporting engine (Daily, MTD, Previous Month metrics).
 - [x] **Milestone 6:** Seed script with demo user and realistic test data.
-- [ ] **Milestone 7:** React frontend UI (Auth, Dashboard, Reading entry, and Reports).
+- [x] **Milestone 7:** React frontend UI (Auth, Dashboard, Reading entry, and Reports).
 - [ ] **Milestone 8:** Final end-to-end polish, test coverage, and documentation.
