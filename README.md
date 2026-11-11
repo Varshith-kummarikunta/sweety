@@ -190,6 +190,20 @@ sweety/
 
 ---
 
+## 🩸 Blood Glucose Readings Endpoints
+
+All reading endpoints require `Authorization: Bearer <token>`. User data isolation is strictly enforced — users can only view, create, edit, and delete their own readings.
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/readings` | Create reading (`reading_date`, `time_slot`, `value`) |
+| `GET` | `/api/readings` | List readings for authenticated user (sorted by date & slot) |
+| `GET` | `/api/readings/:id` | Get single reading by UUID |
+| `PUT` | `/api/readings/:id` | Update reading date, slot, or value |
+| `DELETE` | `/api/readings/:id` | Delete reading by UUID |
+
+---
+
 ## 🧪 Testing
 
 - **Backend Test Suite (Runs against isolated `sweety_test_db`):**
@@ -206,7 +220,7 @@ sweety/
 - [x] **Milestone 1:** Initial repository setup, project structure, dependencies, and environment templates.
 - [x] **Milestone 2:** PostgreSQL schema design, database connection pool, and migrations.
 - [x] **Milestone 3:** User registration, login with bcrypt, and JWT authentication middleware.
-- [ ] **Milestone 4:** Blood glucose readings CRUD API with validation rules & constraints.
+- [x] **Milestone 4:** Blood glucose readings CRUD API with validation rules & constraints.
 - [ ] **Milestone 5:** Reporting engine (Daily, MTD, Previous Month metrics).
 - [ ] **Milestone 6:** Seed script with demo user and realistic test data.
 - [ ] **Milestone 7:** React frontend UI (Auth, Dashboard, Reading entry, and Reports).
