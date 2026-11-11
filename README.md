@@ -109,6 +109,52 @@ sweety/
    cp frontend/.env.example frontend/.env
    ```
 
+### Database Setup & Migration
+
+1. **Ensure PostgreSQL is running** (v14+ recommended).
+
+2. **Create the PostgreSQL Database:**
+   Using `psql`:
+   ```bash
+   psql -U postgres -c "CREATE DATABASE sweety_db;"
+   ```
+   Or using `createdb`:
+   ```bash
+   createdb -U postgres sweety_db
+   ```
+
+3. **Configure Environment Variables:**
+   Update `backend/.env` with your PostgreSQL user, password, host, and port:
+   ```env
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_NAME=sweety_db
+   DB_USER=postgres
+   DB_PASSWORD=your_actual_password_here
+   ```
+
+4. **Verify Database Connection:**
+   ```bash
+   npm run db:check
+   # or from backend:
+   cd backend && npm run db:check
+   ```
+
+5. **Run Schema Migrations:**
+   ```bash
+   npm run db:migrate
+   # or from backend:
+   cd backend && npm run db:migrate
+   ```
+
+6. **Verify Tables in PostgreSQL:**
+   Using `psql`:
+   ```bash
+   psql -U postgres -d sweety_db -c "\dt"
+   psql -U postgres -d sweety_db -c "\d users"
+   psql -U postgres -d sweety_db -c "\d readings"
+   ```
+
 ### Running the Application
 
 - **Start Backend API Server:**
@@ -147,7 +193,7 @@ sweety/
 ## 🗺 Development Milestones
 
 - [x] **Milestone 1:** Initial repository setup, project structure, dependencies, and environment templates.
-- [ ] **Milestone 2:** PostgreSQL schema design, database connection pool, and migrations.
+- [x] **Milestone 2:** PostgreSQL schema design, database connection pool, and migrations.
 - [ ] **Milestone 3:** User registration, login with bcrypt, and JWT authentication middleware.
 - [ ] **Milestone 4:** Blood glucose readings CRUD API with validation rules & constraints.
 - [ ] **Milestone 5:** Reporting engine (Daily, MTD, Previous Month metrics).
