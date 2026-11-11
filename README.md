@@ -147,7 +147,26 @@ sweety/
    cd backend && npm run db:migrate
    ```
 
-6. **Verify Tables in PostgreSQL:**
+6. **Seed Sample Data (Optional for Demo):**
+   ```bash
+   npm run db:seed
+   # or from backend:
+   cd backend && npm run db:seed
+   ```
+
+   **Demo Credentials:**
+   - **Email:** `demo@sweety.local`
+   - **Password:** `SweetyDemo123!`
+   
+   > ⚠️ **Warning:** Demo credentials are strictly for local development and assessment demonstration. Never use demo passwords in production.
+
+   **What is seeded:**
+   - 1 demo user (`Demo User`).
+   - 39 realistic blood glucose readings spanning 10 dates across October 2026 (previous month) and November 2026 (current month-to-date).
+   - Fully covers all 4 standardized time slots with realistic glycemic values (87–150 mg/dL).
+   - Safe and idempotent to run multiple times without creating duplicate records.
+
+7. **Verify Tables in PostgreSQL:**
    Using `psql`:
    ```bash
    psql -U postgres -d sweety_db -c "\dt"
@@ -234,6 +253,6 @@ All reporting endpoints require `Authorization: Bearer <token>`. Calculates high
 - [x] **Milestone 3:** User registration, login with bcrypt, and JWT authentication middleware.
 - [x] **Milestone 4:** Blood glucose readings CRUD API with validation rules & constraints.
 - [x] **Milestone 5:** Reporting engine (Daily, MTD, Previous Month metrics).
-- [ ] **Milestone 6:** Seed script with demo user and realistic test data.
+- [x] **Milestone 6:** Seed script with demo user and realistic test data.
 - [ ] **Milestone 7:** React frontend UI (Auth, Dashboard, Reading entry, and Reports).
 - [ ] **Milestone 8:** Final end-to-end polish, test coverage, and documentation.
