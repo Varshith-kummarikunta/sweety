@@ -180,12 +180,23 @@ sweety/
 
 ---
 
+## 🔐 Authentication Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/auth/register` | Register new user with name, email, password | No |
+| `POST` | `/api/auth/login` | Authenticate user & receive JWT token | No |
+| `GET` | `/api/auth/me` | Fetch authenticated user's profile | Yes (`Bearer <token>`) |
+
+---
+
 ## 🧪 Testing
 
-- **Backend Test Suite:**
+- **Backend Test Suite (Runs against isolated `sweety_test_db`):**
   ```bash
-  cd backend
-  npm test
+  npm run backend:test
+  # or from backend directory:
+  cd backend && npm test
   ```
 
 ---
@@ -194,7 +205,7 @@ sweety/
 
 - [x] **Milestone 1:** Initial repository setup, project structure, dependencies, and environment templates.
 - [x] **Milestone 2:** PostgreSQL schema design, database connection pool, and migrations.
-- [ ] **Milestone 3:** User registration, login with bcrypt, and JWT authentication middleware.
+- [x] **Milestone 3:** User registration, login with bcrypt, and JWT authentication middleware.
 - [ ] **Milestone 4:** Blood glucose readings CRUD API with validation rules & constraints.
 - [ ] **Milestone 5:** Reporting engine (Daily, MTD, Previous Month metrics).
 - [ ] **Milestone 6:** Seed script with demo user and realistic test data.
