@@ -114,14 +114,14 @@ sweety/
 
 - **Node.js:** v18+ (tested on v20.x)
 - **npm:** v9+
-- **PostgreSQL:** v14+ (for upcoming database milestones)
+- **PostgreSQL:** v14+ (tested on v18.x)
 - **Git**
 
 ### Installation
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Varshith-kummarikunta/sweety.git
    cd sweety
    ```
 
@@ -349,3 +349,27 @@ High-resolution visual captures of the application in real Chrome environments a
 - [x] **Milestone 6:** Seed script with demo user and realistic test data.
 - [x] **Milestone 7:** React frontend UI (Auth, Dashboard, Reading entry, and Reports).
 - [x] **Milestone 8:** Final end-to-end polish, test coverage, and documentation.
+
+---
+
+## 📝 Notes & Architecture Assumptions
+
+### Key Implementation Assumptions
+1. **Time Slot Constraints:** Readings are strictly bounded to the 4 required slots (`Morning (fasting)`, `After breakfast`, `After lunch`, `After dinner`) with a unique database constraint (`uq_user_reading_slot`) per user and date, enforcing the 4-readings-per-day rule at both the database and application layers.
+2. **Local Date Semantics:** Dates are stored as ISO calendar dates (`YYYY-MM-DD`). "Future date" checks compare against the user's local system date rather than UTC to prevent timezone rollover discrepancies.
+3. **Medical Interpretation Scope:** In strict accordance with the assessment instructions, the application records and reports numerical glucose values and statistical aggregates without diagnostic classifications (e.g., low/normal/elevated/high) or clinical recommendations.
+4. **Testing Architecture:** The backend test suite runs 57 tests across authentication, readings CRUD, and reporting using Jest + Supertest against a dedicated `sweety_test_db`. The frontend integration suite exercises all 16 user journeys end-to-end using Node.js's native test runner (`node --test`), alongside automated real-browser verification using Puppeteer-core with Google Chrome.
+
+### Scope & Unimplemented Optional Bonuses
+To maintain strict milestone focus, clean architecture, and respect assessment scope constraints:
+- **React Testing Library / JSDOM:** Component unit testing with RTL was not implemented; integration and user journeys were instead verified against the actual API and live Chrome browser.
+- **Docker / Containerization:** Not included; local PostgreSQL and Node.js runtimes were used directly.
+- **Pagination / Infinite Scroll:** Not implemented; daily lists are naturally bounded to at most 4 items, while reports aggregate bounded date ranges.
+- **Password Reset / Email Verification:** Not implemented; accounts authenticate directly via bcrypt credentials.
+
+### Future Improvements
+With additional development time, valuable production enhancements would include:
+- Interactive glycemic trend charts (e.g., Recharts) to visualize month-to-date and 30-day glycemic trajectories.
+- Containerized development with Docker Compose for single-command database and service provisioning.
+- Export functionality (PDF / CSV) for clinical summary reports.
+- Component-level unit test coverage using React Testing Library and Playwright for cross-browser CI.
